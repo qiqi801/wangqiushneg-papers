@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>思维导图 · 王秋生课题组毕业文章展示站</title>
+<style>
+:root{
+  --bg:#eef2fb; --card:#ffffff; --line:#e3e8f2; --text:#1e293b; --muted:#64748b;
+  --accent:#4f6ef7; --accent-soft:#eef1fe;
+  --dir1:#3b6ef6; --dir2:#0ea5a5; --dir3:#f59e0b; --dir4:#ef4444; --dir5:#8b5cf6;
+  --dir6:#06b6d4; --dir7:#ec4899; --dir8:#65a30d;
+  --radius:14px; --shadow:0 2px 6px rgba(30,41,59,.06); --shadow-lg:0 12px 28px rgba(30,41,59,.13);
+  --hero1:#1e2a78; --hero2:#3b4fd8; --hero3:#6d5bd0; --hero4:#9a6ce0;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:"Segoe UI","Microsoft YaHei","PingFang SC",sans-serif;
+  background:linear-gradient(160deg,#eef2fb 0%,#f8fafc 46%,#f3edfb 100%);
+  background-attachment:fixed; color:var(--text); font-size:14px; line-height:1.75;
+}
+.wrap{max-width:1180px; margin:0 auto; padding:30px 18px 80px;}
+
+/* ===== Hero ===== */
+header{
+  position:relative; overflow:hidden; color:#fff;
+  border-radius:22px; padding:38px 36px 30px; margin-bottom:20px;
+  background:linear-gradient(135deg,var(--hero1) 0%,var(--hero2) 45%,var(--hero3) 76%,var(--hero4) 100%);
+  box-shadow:0 16px 40px rgba(59,79,216,.30);
+}
+header::before, header::after{
+  content:""; position:absolute; border-radius:50%; pointer-events:none;
+}
+header::before{width:340px; height:340px; right:-90px; top:-140px; background:radial-gradient(circle,rgba(255,255,255,.22),transparent 65%);}
+header::after{width:220px; height:220px; left:-60px; bottom:-110px; background:radial-gradient(circle,rgba(255,255,255,.14),transparent 65%);}
+.hero-tag{display:inline-flex; align-items:center; gap:6px; font-size:11px; letter-spacing:2px; font-weight:600; color:rgba(255,255,255,.85); background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.28); border-radius:999px; padding:4px 12px; margin-bottom:14px; backdrop-filter:blur(4px);}
+header h1{position:relative; font-size:28px; font-weight:800; letter-spacing:.5px; margin-bottom:10px; text-shadow:0 2px 12px rgba(20,30,90,.25);}
+header .sub{position:relative; font-size:13.5px; color:rgba(255,255,255,.92); max-width:820px; margin-bottom:18px; line-height:1.9;}
+.hero-badges{position:relative; display:flex; flex-wrap:wrap; gap:10px;}
+.hb{
+  display:inline-flex; align-items:center; gap:7px; font-size:12.5px; font-weight:600;
+  background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.30);
+  border-radius:999px; padding:7px 14px; backdrop-filter:blur(6px);
+  box-shadow:0 4px 12px rgba(20,30,90,.12);
+}
+.hb svg{flex:0 0 auto;}
+.hb b{font-size:14px;}
+
+/* ===== 提示条 ===== */
+.note{
+  display:flex; gap:10px; align-items:flex-start;
+  background:linear-gradient(90deg,#fff7ed,#fffbeb); border:1px solid #fed7aa; border-left:4px solid #f59e0b;
+  color:#92400e; border-radius:12px; padding:11px 16px; font-size:12.5px; margin-bottom:16px;
+  line-height:1.8; box-shadow:var(--shadow);
+}
+
+/* ===== 工具栏 ===== */
+.toolbar{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:18px 0 12px;}
+.toolbar input{
+  flex:1; min-width:250px; padding:11px 16px 11px 38px; border:1px solid var(--line); border-radius:12px;
+  font-size:14px; outline:none; background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M21 21l-4.35-4.35'/%3E%3C/svg%3E") 14px center no-repeat;
+  box-shadow:var(--shadow); transition:border-color .15s, box-shadow .15s;
+}
+.toolbar input:focus{border-color:var(--accent); box-shadow:0 0 0 4px rgba(79,110,247,.14);}
+.toolbar button{
+  padding:10px 18px; border:1px solid var(--line); background:#fff; border-radius:12px; cursor:pointer;
+  font-size:13px; font-weight:600; color:var(--text); box-shadow:var(--shadow);
+  transition:all .15s;
+}
+.toolbar button:hover{background:var(--accent-soft); border-color:var(--accent); color:var(--accent); transform:translateY(-1px); box-shadow:var(--shadow-lg);}
+.stat{font-size:12.5px; color:var(--muted); margin-bottom:14px; padding-left:2px;}
+
+/* ===== 树节点通用 ===== */
+.node{margin:9px 0;}
+.node-head{
+  display:flex; align-items:flex-start; gap:10px; padding:12px 16px; background:#fff;
+  border:1px solid var(--line); border-radius:12px; cursor:pointer; box-shadow:var(--shadow);
+  transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .18s ease;
+}
+.node-head:hover{transform:translateY(-2px); box-shadow:var(--shadow-lg); border-color:#c7d4f5;}
+.node-head .tw{flex:0 0 18px; text-align:center; color:var(--muted); font-size:12px; transition:transform .22s ease; margin-top:3px;}
+.node.collapsed > .node-head .tw{transform:rotate(-90deg);}
+.node-head .t{flex:1; min-width:0;}
+.node-head .t .ti{font-weight:600; font-size:14px;}
+.node-head .t .meta{font-size:12px; color:var(--muted); margin-top:3px;}
+.node-head .badge{
+  flex:0 0 auto; font-size:11px; font-weight:700; padding:3px 10px; border-radius:999px;
+  color:#fff; align-self:center; letter-spacing:.4px;
+  background:var(--dir-color,var(--accent)); box-shadow:0 2px 8px color-mix(in srgb, var(--dir-color,var(--accent)) 45%, transparent);
+}
+.children{margin-left:24px; padding-left:16px; border-left:2px dashed #d7dff0;}
+.node.collapsed > .children{display:none;}
+
+/* ===== 方向节点 ===== */
+.dir>.node-head{
+  background:linear-gradient(90deg,var(--dir-soft,#eef1fe) 0%,#ffffff 85%);
+  border-left:5px solid var(--dir-color,var(--accent));
+  font-size:15px; border-radius:12px;
+}
+.dir>.node-head .ti{font-weight:800; font-size:15.5px;}
+.dir>.node-head .badge{background:var(--dir-color,var(--accent));}
+.dir>.node-head:hover{border-left-color:var(--dir-color,var(--accent));}
+
+/* ===== 论文节点 ===== */
+.paper>.node-head{border-left:5px solid var(--dir-color,var(--accent)); background:#fff;}
+.paper>.node-head .badge{background:var(--dir-color,var(--accent));}
+
+/* ===== 8维度卡片 ===== */
+.dim{margin:0;}
+.dim>.node-head{
+  background:#f8fafc; border:1px solid var(--line); border-radius:10px; padding:9px 12px;
+  cursor:default; box-shadow:none; align-items:flex-start;
+}
+.dim>.node-head:hover{transform:none; box-shadow:var(--shadow); border-color:var(--line);}
+.dim .dt{
+  flex:0 0 132px; font-weight:700; color:var(--accent); font-size:13px; line-height:1.7;
+  display:flex; align-items:center; gap:6px; padding-top:1px;
+}
+.dim .dv{flex:1; color:#475569; font-size:13px; line-height:1.85;}
+
+/* ===== 成员节点 ===== */
+.member>.node-head{border-left:5px solid #94a3b8; background:#fff;}
+.member>.node-head .badge{background:linear-gradient(135deg,#64748b,#94a3b8);}
+.member .dim .dt{color:#64748b;}
+.member-card{
+  background:linear-gradient(180deg,#f8fafc,#f1f5f9); border:1px solid var(--line); border-left:4px solid #94a3b8;
+  border-radius:10px; padding:11px 15px; margin:0 0 6px; font-size:13px; color:#475569; line-height:1.8;
+}
+.member-card b{color:var(--text);}
+
+/* ===== 成员内嵌论文卡片 ===== */
+.member-paper{
+  background:#fff; border:1px solid var(--line); border-left:4px solid var(--dir-color,var(--accent));
+  border-radius:12px; padding:11px 14px; margin:8px 0; box-shadow:var(--shadow);
+  transition:box-shadow .18s ease, transform .18s ease;
+}
+.member-paper:hover{box-shadow:var(--shadow-lg); transform:translateY(-1px);}
+.member-paper .mp-head{display:flex; align-items:center; gap:9px; margin-bottom:4px; flex-wrap:wrap;}
+.member-paper .mp-badge{
+  flex:0 0 auto; font-size:11px; font-weight:700; padding:3px 10px; border-radius:999px; color:#fff;
+  background:var(--dir-color,var(--accent)); box-shadow:0 2px 8px color-mix(in srgb, var(--dir-color,var(--accent)) 40%, transparent);
+}
+.member-paper .mp-title{font-weight:700; color:var(--text); font-size:13.5px;}
+.member-paper .mp-meta{font-size:12px; color:var(--muted); margin-bottom:8px;}
+.member-paper .dim{margin:0 0 5px;}
+.member-paper .dim>.node-head{background:#f8fafc; box-shadow:none; padding:6px 10px; cursor:default;}
+.member-paper .dim>.node-head:hover{border-color:var(--line); transform:none; box-shadow:none;}
+.member-paper .dim .dt{color:var(--dir-color,var(--text)); flex:0 0 118px;}
+.member-paper .dim .dv{font-size:12.5px;}
+
+.link{color:var(--accent); cursor:pointer; text-decoration:underline;}
+.link:hover{color:#1e40af;}
+mark{background:linear-gradient(180deg,rgba(255,228,92,.9),#ffd84d); padding:0 3px; border-radius:4px; color:#7c4a03; font-weight:600;}
+footer{color:var(--muted); font-size:12px; text-align:center; margin-top:34px; line-height:1.9;}
+@media (max-width:760px){
+  .dim .dt{flex:0 0 96px;}
+  .children{margin-left:12px; padding-left:10px;}
+  header{padding:26px 20px 22px;}
+  header h1{font-size:22px;}
+}
+
+/* ===== 全站统一导航 ===== */
+.site-nav{position:sticky; top:0; z-index:200; background:rgba(255,255,255,.85); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--line); box-shadow:0 2px 14px rgba(30,41,59,.06);}
+.nav-inner{max-width:1180px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 18px;}
+.brand{display:inline-flex; align-items:center; gap:9px; font-weight:800; font-size:15.5px; color:var(--text); text-decoration:none; letter-spacing:.3px;}
+.brand-logo{width:34px; height:34px; border-radius:10px; display:inline-flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#3b4fd8,#8b5cf6); color:#fff; box-shadow:0 4px 12px rgba(79,110,247,.35);}
+.nav-links{display:flex; gap:6px; flex-wrap:wrap;}
+.nav-link{display:inline-flex; align-items:center; gap:6px; padding:8px 16px; border-radius:10px; text-decoration:none; color:var(--muted); font-size:13.5px; font-weight:600; transition:all .15s;}
+.nav-link:hover{background:var(--accent-soft); color:var(--accent);}
+.nav-link.active{background:linear-gradient(135deg,var(--accent),#7c5cf0); color:#fff; box-shadow:0 4px 14px rgba(79,110,247,.38);}
+@media (max-width:640px){ .brand .brand-txt{display:none;} .nav-link{padding:8px 12px; font-size:13px;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html"><span class="brand-logo"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span><span class="brand-txt">王秋生课题组 · 毕业文章展</span></a>
+    <div class="nav-links">
+      <a class="nav-link" href="index.html">首页</a>
+      <a class="nav-link" href="papers.html">论文</a>
+      <a class="nav-link" href="members.html">人员</a>
+      <a class="nav-link active" href="mindmap.html">思维导图</a>
+    </div>
+  </div>
+</nav>
+<div class="note"><span>ℹ️</span><span>第 19 篇《PVA-ECC材料研制及其在地下工程中的应用》已按约定跳过，不纳入本导图。点击节点可折叠 / 展开，支持全文搜索（按作者、标题、研究方向、8 维度内容检索）。</span></div>
+<div class="toolbar">
+  <input id="q" type="text" placeholder="搜索：作者 / 标题 / 方向 / 维度关键词，如“渗漏水”“LS-SVM”“本构”…">
+  <button onclick="expandAll()">全部展开</button>
+  <button onclick="collapseAll()">全部折叠</button>
+  <button onclick="clearSearch()">清除搜索</button>
+</div>
+<div id="stat" class="stat"></div>
+<div id="tree"></div>
+<footer>生成时间：2026-09-27 ｜ 数据来源：课题组 01-32 号学位论文精读（8 维度：解决的问题 / 创新点 / 实验与模型设计 / 方法局限 / 数据来源 / 结果论证 / 文章组织 / 尚未解决问题与缺陷）</footer>
+</div>
+<script>
+const papers = [
+{"id": "01", "author": "崔梦超", "year": "2026", "degree": "工学硕士", "title": "隧道工程渗漏水封堵材料研制及注浆技术研究", "dir": "d1", "brief": "研制超细水泥复合浆液与丙烯酸盐-沸石粉复合浆液，构建双重注浆体系，堵水率44.56%。", "dims": {"problem": "隧道渗漏水治理以注浆为主，但现有注浆材料在快速止水、深层渗透、后期补强及长期稳定性等方面存在局限，单一材料难以同时满足。", "innovation": "①提出'先快速止水、后补充加固'的协同治理思路；②研制新型超细水泥复合浆液，推荐配比硅灰8%+膨润土10%+HPMC 0.1%+水灰比1.0；③采用沸石粉改性丙烯酸盐材料，显著缩短凝胶时间并降低吸水膨胀率；④构建'丙烯酸盐-沸石粉复合浆液+新型超细水泥复合浆液'双重注浆体系。", "method": "单因素试验+正交试验优化浆液配比；动水抗分散试验与SEM扫描电镜验证；室内模型箱注浆试验对比双重体系堵水效果；现场工程应用验证。", "limitation": "现场仅短期跟踪观测，长期稳定性与复渗风险需持续验证；模型箱为室内尺度，与实际水压工况存在差距。", "data": "室内试验（单因素/正交/动水抗分散/SEM/模型箱注浆试验）+现场工程应用观测数据。", "result": "优化浆液析水率1%、流动度27cm、黏度85s、初凝8.5h、7d/28d抗压强度5.4/13.2MPa、动水质量留存率>98%；双重注浆体系平均堵水率44.56%，明显高于'纯丙烯酸盐+普通水泥'体系的20.20%；治理后渗漏明显减弱直至消失。", "structure": "绪论→超细水泥复合浆液研制→丙烯酸盐-沸石粉改性→双重注浆体系模型箱验证→现场工程应用→结论与展望。", "future": "长期稳定性与复渗跟踪；深地层、高水压工况适应性；双重注浆体系施工工艺标准化与工程推广。"}}, {"id": "02", "author": "王浩", "year": "2026", "degree": "土木水利硕士（专业学位）", "title": "基于物理信息的堰塞坝溃决峰值流量预测模型及演进模拟", "dir": "d6", "brief": "提出物理基准+机器学习残差修正的灰盒模型预测堰塞坝溃决峰值流量，并用HEC-RAS模拟白格堰塞坝演进。", "dims": {"problem": "堰塞坝溃决事件低频高危、完整案例极少，传统经验公式难以精准预测非线性溃决过程；纯机器学习在小样本下易过拟合，甚至输出违背水动力学常识的结果。", "innovation": "①提出'物理基准预测+机器学习残差修正'的灰盒（Grey-Box）集成预测模型；②整合80个历史案例，用多元链式方程填补缺失特征，提取水流势能-动能转换物理特征及相对溃口深度、弗劳德数等无量纲特征，并在物理边界内加噪扩充样本；③BRR+HGBR+Extra Trees 方差投票集成预测最终溃口深度；④GPR+SVR+RidgeCV 残差修正峰值流量，LOOCV交叉验证并剔除与物理定律冲突的离群数据；⑤用HEC-RAS二维水动力学软件模拟2018年白格堰塞坝真实溃决演进。", "method": "多源案例数据集重构（80案例+填补+物理特征+受控加噪）→最终溃口深度集成预测→峰值流量灰盒预测→HEC-RAS白格堰塞坝溃决演进模拟验证。", "limitation": "加噪扩充依赖漂变均方根阈值等物理边界控制；动态演进仅以白格单案例验证，普适性待检验；中间变量（溃口深度）预测误差会向峰值流量传递。", "data": "80个历史堰塞坝溃决案例数据；2018年金沙江白格堰塞坝第二次溃决实测资料。", "result": "灰盒模型有效缓解小样本过拟合与黑箱问题；HEC-RAS模拟的洪水淹没范围、水深极值及流速分布与真实灾害演进吻合较好，水深误差约5.6%。", "structure": "案例数据集构建→最终溃口深度预测模型→峰值流量灰盒预测模型→HEC-RAS演进模拟→结论与展望。", "future": "更多真实案例验证；物理约束与数据驱动的进一步融合；静态参数预测与动态洪水演进的全耦合；应急响应工具化。"}}, {"id": "03", "author": "徐澎海", "year": "2026", "degree": "工学硕士", "title": "强风化泥岩流态固化浆液制备及性能调控", "dir": "d8", "brief": "以强风化泥岩制备流态固化浆液，均匀试验+多元回归优化配比，成本降73.8%、碳排放降68.6%。", "dims": {"problem": "岩溶区强风化泥岩等废泥岩处置困难，溶洞充填加固需大量浆液，传统材料成本高、碳排放高。", "innovation": "①以强风化泥岩制备流态固化浆液，实现废泥岩资源化利用；②采用均匀试验+逐步多元回归建立性能方程，并用理想点法进行多目标优化配比。", "method": "室内均匀试验获取性能规律→逐步多元回归建立性能预测方程→理想点法多目标优化→岩溶桩基模型试验验证。", "limitation": "未涉及长期耐久性能与现场大规模验证。", "data": "室内试验数据。", "result": "优化配比使成本降低73.8%、碳排放降低68.6%，性能满足充填加固要求。", "structure": "浆液制备工艺→性能影响规律→配比优化→模型试验验证→结论。", "future": "长期耐久性能研究；现场工程推广与大规模验证。"}}, {"id": "04", "author": "张瑞涛", "year": "2026", "degree": "工学博士", "title": "岩溶桩基钻孔固化土注浆加固机理及充填方法研究", "dir": "d1", "brief": "基于能量/动量守恒推导注浆扩散模型，圆孔扩张理论确定临界充填量，数值流形法评估稳定性。", "dims": {"problem": "岩溶桩基钻孔固化土注浆的浆液扩散机理不清、临界充填量不明，加固设计与效果评价缺乏理论依据。", "innovation": "①基于能量守恒/动量守恒推导浆液扩散模型；②引入圆孔扩张理论确定临界充填量；③采用数值流形法（NMM）评估注浆加固稳定性。", "method": "理论推导（扩散模型+临界充填量）→数值流形法模拟→室内模型试验与工程验证。", "limitation": "废料资源化利用仅初步探索；长期扰动与多场耦合效应未深入。", "data": "室内试验数据与工程应用数据。", "result": "理论模型被模型试验验证，注浆加固成本节省约74%。", "structure": "理论（扩散模型/临界充填量）→数值（NMM）→材料→模型试验→结论（6章）。", "future": "长期扰动与多场耦合效应；废料资源化深化；工程标准化设计方法。"}}, {"id": "05", "author": "齐云鹏", "year": "2026", "degree": "工学博士", "title": "固废渣土冲刷防护特性改良及工程应用", "dir": "d3", "brief": "响应面多目标协同优化固化土配比，LS-SVM预测冲刷深度，固废渣土资源化用于桥墩防冲刷。", "dims": {"problem": "桥梁冲刷防护与固废渣土处置双重需求，传统防护材料成本高、环境影响大。", "innovation": "①响应面法多目标协同优化固化土配比；②引入LS-SVM进行冲刷深度预测；③实现固废渣土资源化用于桥墩冲刷防护。", "method": "室内试验+337组数据分析→配比优化→重庆江津桥现场应用→冲刷深度预测模型。", "limitation": "现场养护条件差异影响防护效果一致性。", "data": "室内试验数据、规范数据与现场工程数据。", "result": "最佳配比下悬浊物浓度97mg/L、水稳定性87%，冲刷防护效果达标。", "structure": "材料特性→配比优化→现场应用→冲刷预测→工程结论。", "future": "防护效果标准体系建立；更多工程案例验证。"}}, {"id": "06", "author": "李裴", "year": "2025", "degree": "工学博士", "title": "砂卵层地铁隧道渗漏水病害识别诊断及注浆治理方法研究", "dir": "d1", "brief": "点云分割识别渗漏病害+双介质流固耦合模型+超细水泥/丙烯酸盐-沸石动水注浆材料。", "dims": {"problem": "砂卵石地层地铁隧道渗漏水病害识别难、动水条件下注浆治理材料与工艺不足。", "innovation": "①点云分割方法自动识别渗漏病害；②建立双介质流固耦合模型模拟动水注浆；③采用超细水泥/丙烯酸盐-沸石材料实现动水环境封堵。", "method": "Python软件算法开发→数值模拟（流固耦合）→物理模型试验→现场工程验证。", "limitation": "点云强度修正仍为近似处理。", "data": "地铁隧道点云数据与现场工程数据。", "result": "渗漏识别准确率92%，识别效率较传统方法提升7-8倍。", "structure": "病害识别→机理分析→注浆材料→工程应用。", "future": "智能实时监测；复杂工况识别鲁棒性提升。"}}, {"id": "07", "author": "周天齐", "year": "2025", "degree": "土木水利硕士（专业学位）", "title": "重庆江津长江公路大桥固化土防冲刷技术研究", "dir": "d3", "brief": "钢丝石笼围堰+土工布+流态固化土灌注组合工艺，我国内河桥梁首例，声呐验收满足设计要求。", "dims": {"problem": "水流速度急、水位变化幅度大的灌注环境下，固化土灌注效果受严重考验，传统被动防护成本高、易损伤桩基。", "innovation": "①提出'钢丝石笼围堰+土工布+预拌流态固化土灌注'组合工艺（我国内河桥梁首例）；②有限体积法建立石笼三维水流模型，量化石笼阻水与降低局部流速效果。", "method": "室内试验+现场试验确定固化土泵送配比（综合流动度、抗分散性、抗压强度及抗冲刷性能）→有限体积法水流数值模拟→重庆江津长江公路大桥16号主墩现场施工→声呐扫测与取样检测验收。", "limitation": "单一工程案例，工艺通用性需更多工程验证。", "data": "重庆江津长江公路大桥16号主墩现场监测与检测数据、室内试验数据。", "result": "石笼结构有效分散水流冲击力、降低局部流速，为固化土灌注提供稳定环境；施工后声呐扫测及取样检测表明防护效果满足设计要求。", "structure": "防护方案设计→固化土配比试验→石笼水流数值模拟→现场施工与验收→结论。", "future": "通用设计方法建立；更多工程案例与长期效果监测。"}}, {"id": "08", "author": "赵雨筱", "year": "2025", "degree": "工学硕士", "title": "基于改进RES-AHP多维云模型的桥墩基础抗冲刷能力评价方法", "dir": "d3", "brief": "RES-AHP确定指标权重+多维云模型处理不确定性，评价江津15#/16#桥墩为III级。", "dims": {"problem": "桥墩基础抗冲刷能力评价依赖专家经验，主观性强、不确定性处理不足。", "innovation": "①改进RES-AHP（粗糙集+层次分析）确定评价指标权重；②引入多维云模型处理评价过程中的随机性与模糊性。", "method": "构建13个评价指标→RES-AHP权重计算→多维云模型评价→江津大桥案例对比验证。", "limitation": "主客观融合的阈值设置仍需经验校准。", "data": "规范数据与桥梁监测数据。", "result": "对重庆江津长江公路大桥15#/16#桥墩基础评价为III级，评价结果与工程实际相符。", "structure": "评价指标体系→权重确定→多维云模型→实例评价→结论。", "future": "动态监测数据实时接入；阈值自适应优化。"}}, {"id": "09", "author": "王大雷", "year": "2025", "degree": "土木水利硕士（专业学位）", "title": "重庆红黏土抗冲刷性态改良试验研究", "dir": "d3", "brief": "多因素耦合试验确定最优配比0.3%固化剂+10%水泥+0.5水固比，实现水下自流平、无分散灌注。", "dims": {"problem": "水下固化土灌注时抗分散性差、材料与红黏土协调性不足，影响抗冲刷效果。", "innovation": "多因素耦合试验提出最优配比（0.3%固化剂+10%水泥+0.5水固比），兼顾流动性与抗分散性。", "method": "室内多因素试验（固化剂掺量/水泥掺量/水固比）→性能验证。", "limitation": "微观机理分析较浅，缺乏SEM等细观证据。", "data": "室内试验数据。", "result": "最优配比下固化土实现自流平、无分散，抗冲刷性能满足要求。", "structure": "固化剂→水泥→水固比→性能验证。", "future": "长期干湿循环耐久性；微观机理深化。"}}, {"id": "10", "author": "裴瑛", "year": "2024", "degree": "工学硕士", "title": "基于点云数据的地铁隧道限界检测与应用方法研究", "dir": "d2", "brief": "点云预处理+中轴线/断面提取+二维侵限检测，开发Python/Qt软件，误差≤30mm。", "dims": {"problem": "传统接触式地铁隧道限界检测效率低、影响运营安全。", "innovation": "①点云预处理与中轴线/断面自动提取方法；②二维侵限检测算法；③Python/Qt限界检测软件。", "method": "北京地铁17号线工程应用验证。", "limitation": "单一线路验证，多场景适配性待检验。", "data": "三维激光扫描点云数据。", "result": "与全站仪测量对比误差≤30mm，满足限界检测精度要求。", "structure": "数据采集→断面提取→侵限检测→软件与应用。", "future": "多场景、多线路适配；检测自动化程度提升。"}}, {"id": "11", "author": "李运杰", "year": "2024", "degree": "工学硕士", "title": "水泥复合木质素改良季冻区黄土的力学性能及微观机制", "dir": "d8", "brief": "水泥-木钙协同改良季冻区黄土，四视角微观机理+灰色关联宏微观分析。", "dims": {"problem": "季冻区黄土湿陷性与冻融损伤导致路基病害，单一改良材料效果有限。", "innovation": "①水泥-木钙（木质素）协同改良黄土；②微观四视角机理分析；③灰色关联法建立宏微观关联。", "method": "无侧限抗压试验/直剪试验/冻融循环试验/微观试验。", "limitation": "木钙劣化机制研究较浅。", "data": "室内试验数据。", "result": "得到最优改良配比与冻融损伤演化规律，宏微观指标关联显著。", "structure": "力学性能→冻融特性→微观机制→灰色关联分析。", "future": "长期耐久性；木钙组分劣化机制深化。"}}, {"id": "12", "author": "李佳豪", "year": "2024", "degree": "工学硕士", "title": "基于点云数据的盾构隧道渗漏水识别研究及应用", "dir": "d1", "brief": "按管片宽度分割点云、单环截取逐环识别渗漏水，北京地铁17号线识别准确率92%。", "dims": {"problem": "三维激光扫描点云数据量过大导致渗漏水识别效率低；盾构隧道渗漏水病害缺乏自动识别与自动统计分析手段。", "innovation": "①按管片宽度分割点云、单环截取逐环识别的策略，借环号推算隧道里程实现渗漏水精准定位；②提出'坐标转换→去噪→精简→投影栅格化转灰度图→二值化+中值滤波→连通域分析'完整识别流程；③开发Python渗漏水识别软件，自动统计每环渗漏水比率/面积并定位管片。", "method": "地面三维激光扫描仪采集点云→预处理→投影栅格化生成灰度图像→二值化与中值滤波→连通域分析提取渗漏水→北京地铁17号线40m试验段现场验证。", "limitation": "点云采集需多次架站，自动化程度有限；运营期管缝、螺栓孔等干扰物难以完全去除，影响复杂工况识别精度。", "data": "北京地铁17号线盾构隧道现场三维激光扫描点云数据。", "result": "40m试验段识别准确率92%、历时0.3~0.5h，对比人工测量法（2.5~3.5h）与CCD相机拍照法（1.5~2h），精度满足要求且效率显著提高。", "structure": "绪论→点云获取与预处理→渗漏水识别方法→识别软件开发→工程应用→结论与展望。", "future": "与轨道检测小车及移动扫描结合；干扰物去除与去噪算法优化；复杂工况鲁棒性验证。"}}, {"id": "13", "author": "许光明", "year": "2023", "degree": "工学硕士", "title": "基于热力学理论的超固结黏土本构模型及参数确定方法", "dir": "d5", "brief": "将热力学模型参数简化为间隔应力比与水滴参数，结合临界状态理论建立6参数超固结黏土本构模型。", "dims": {"problem": "修正剑桥模型在超固结比较大时高估峰值强度；热力学本构模型参数物理意义不明确、参数确定困难。", "innovation": "①将热力学模型参数简化为间隔应力比与水滴参数，用均匀化理论解释其物理意义（应力比为强网络压力/整体平均压力，水滴参数为强网络体积分数）；②结合临界状态理论，通过屈服面与Hvorslev面相切推导水滴参数表达式，建立6参数模型；③通过调节两个参数适配不同岩土材料与超固结度。", "method": "纯理论推导（广义热力学框架+Hvorslev面约束）+模型预测与藤森黏土、上海软土三轴试验数据对比验证。", "limitation": "水滴参数被简化为定值，按物理意义应随加载过程变化；参数未考虑加载演化；砂土与黏土间隔应力比取值差异大，适用面受限。", "data": "文献公开的藤森（Fujinomori）黏土与上海软土三轴试验数据。", "result": "模型预测与两种黏土试验对比，能合理反映超固结土的峰值、软化和剪胀特性；上海软黏土预测结果优于藤森黏土。", "structure": "绪论→热力学理论→各向同性模型簇→参数分析→基于Hvorslev面的参数确定及验证→结论与展望。", "future": "考虑间隔应力比差异的砂土本构模型；水滴参数随加载的变化规律（离散元力链演化）；三轴复杂应力路径与循环荷载验证。"}}, {"id": "14", "author": "李广耀", "year": "2023", "degree": "土木水利硕士（专业学位）", "title": "大断面箱涵下穿既有铁路案例分析及变形规律研究", "dir": "d2", "brief": "大断面箱涵+小型箱涵+顶管同时施工实时监测，纵横梁加固体系有限元分析，累计沉降稳定在1.8mm内。", "dims": {"problem": "大断面箱涵下穿既有铁路施工期间轨道沉降控制困难、变形规律不明确；多类型工程同时施工的叠加影响缺乏系统性案例。", "innovation": "①完整记录'大断面箱涵顶进+小型箱涵顶进+顶管'同时施工关键阶段的多维实时监测案例；②提出加快垫层浇筑、智能化精准注浆预控加固、线路快速维养等多维控制措施；③以纵横梁加固体系为核心建立有限元模型，量化列车荷载下轨道及加固体系力学响应。", "method": "现场实时监测（轨道及路堤沉降、顶进姿态、线路加固）+有限元数值模型（限速45km/h列车荷载）+实测对比验证。", "limitation": "数值分析未考虑3-5-3扣轨对加固体系的作用；施工方及时整修线路后未进行安全风险分析；单案例研究。", "data": "北京某城市道路下穿京哈铁路工程现场施工监测数据。", "result": "工作坑开挖完成时最大沉降7.4mm、最大差异沉降8.1mm，完工一月后累计沉降≤1.8mm满足规范；数值结果（轨道最大沉降位于架空加固结构中部、弯矩M形分布、最大正弯矩位于中点两侧15m）与实测对比验证加固必要性。", "structure": "绪论→工程概况→监测方案→监测结果分析→有限元分析→结论与展望。", "future": "扣轨纳入加固体系整体分析；SVM小样本安全风险建模；顶进全过程动态模拟与列车动载-轨道-地基耦合。"}}, {"id": "15", "author": "修一兵", "year": "2023", "degree": "土木水利硕士（专业学位）", "title": "固化土抗冲刷特性及起动切应力时间效应研究", "dir": "d3", "brief": "阐明固化剂+水泥双重固化机理，确定10%最佳水泥掺量，提出起动切应力时间效应模型。", "dims": {"problem": "固化土抗冲刷强度增长机理不明确；已有起动切应力模型未考虑固化时间效应。", "innovation": "①系统阐明固化剂（环氧树脂+纳米二氧化硅+硅酸钠）与水泥双重固化在砂土/黏土上的差异化机理；②通过单元体试验确定最佳水泥掺量（约10%为砂土与黏土交集）；③提出固化土起动切应力时间效应模型并验证优于已有模型。", "method": "单元体冲刷试验（不同水泥掺量与固化时间2~6h）→冲刷速率曲线、起动切应力-掺量关系→机理分析与时间效应模型构建→与已有模型对比。", "limitation": "仅使用一种固化剂，掺量直接采纳厂家建议；模型参数离散性较强；机理分析以定性为主，微观验证不足。", "data": "实验室单元体冲刷试验数据（砂土与黏土、不同水泥掺量、不同固化时间）。", "result": "固化土抗冲刷强度随水泥掺量增加而增大，10%为关键节点；固化砂土主要强度增长在4~6h、固化黏土在2~4h；时间效应模型对比验证优于其他模型。", "structure": "绪论→固化剂与水泥作用机理→配合比试验→固化时间影响→时间效应模型→结论与展望。", "future": "不同固化剂对比与机理关联；固化剂最佳掺量优化；模型参数与物理力学性质标定；长期耐久性（干湿循环、冻融）。"}}, {"id": "16", "author": "张瑞涛", "year": "2022", "degree": "工学硕士", "title": "岩质边坡溃曲破坏机理及数值流形法模拟", "dir": "d8", "brief": "能量法+Hoek-Brown准则推导临界溃曲坡长/滑动位移/隆起高度公式，NMM全过程模拟溃曲演变。", "dims": {"problem": "顺层岩质边坡溃曲（滑移-弯曲）破坏机理的定量判断准则不足，理论计算与数值模拟缺乏系统结合。", "innovation": "①基于能量法、考虑抗拉/抗压强度并用Hoek-Brown准则折减，推导临界溃曲坡长、临界滑动位移、临界隆起高度公式；②建立以滑动位移为依据的溃曲失稳判断准则，划分'弯曲段拉裂→压碎→溃曲成灾'三阶段；③数值流形法（NMM）预制层间与侧向交叉节理，全过程模拟溃曲演变并与理论互验；④揭示几何尺寸、强度与侧向节理的影响规律。", "method": "理论推导（能量法+H-B准则）+NMM数值模拟（预制节理）+5个经典溃曲案例（李家峡2号、霸王山、Malvern Hills、Lavini di Marco、Quintette）对比验证+参数敏感性分析。", "limitation": "理论推导对边界约束与溃曲变形模态做了假设简化；仅考虑自重，未考虑侧向宽度、静水压力、地震；NMM预置节理，未模拟裂纹萌生-扩展-贯通。", "data": "五个经典溃曲工程实例的文献资料与现场估计数据。", "result": "Malvern Hills案例滑动位移理论3.0m/模拟3.1m/实测6.2m量级对比，验证理论可靠性；NMM模拟与理论公式一致；敏感性分析给出各因素定量影响规律。", "structure": "绪论→顺层岩质边坡滑移弯曲理论→溃曲判据及工程实例→数值流形法模拟→影响因素分析→结论与展望。", "future": "复杂边界与真实变形模态下的公式修正；水压力、地震、侧向宽度影响；倾倒前剪切破坏情形；裂纹萌生-扩展-贯通细观模拟。"}}, {"id": "17", "author": "周鹏展", "year": "2022", "degree": "工学硕士", "title": "细颗粒土和混合土体的冲蚀特征及冲蚀速率模型研究", "dir": "d4", "brief": "PCA+多元回归/LS-SVM预测冲蚀参数，量纲分析修正Wilson模型提出三参数冲蚀速率模型。", "dims": {"problem": "细颗粒土与砂砾-黏土混合土体冲蚀参数变异性大、难以预测；已有冲蚀速率模型将冲蚀速率与剪应力间的指数关系取为常数，限制应用范围。", "innovation": "①用PCA解耦土性参数耦合，建立多元回归+LS-SVM冲蚀参数预测方法；②量纲分析重新定义Wilson模型颗粒交换时间参数；③提出三参数修正冲蚀速率模型（过剪应力模型与Wilson模型结合），低应力预测精度优于Wilson模型；④揭示粒径、黏粒含量、黏聚力对冲蚀非线性行为的影响规律。", "method": "单元体冲蚀试验（均匀/非均匀砂砾-黏土混合土体，黏粒含量0/20/40/60/80%多工况）+98组细颗粒土EFA数据回归统计（PCA、非线性回归、LS-SVM）+量纲分析模型修正与拟合对比。", "limitation": "混合土体试验数据仍匮乏；不同土体冲蚀参数差异大；修正模型适用范围需进一步验证；模型为经验-半理论结合。", "data": "实验室单元体冲蚀试验数据（含98组细颗粒土EFA数据）。", "result": "PCA+多元回归/LS-SVM对细颗粒土冲蚀参数预测效果较好；修正模型在低应力条件下精度优于Wilson模型并保持S形曲线特征；冲蚀参数b0、b1与干密度、含水量的幂函数关系量化。", "structure": "绪论→冲蚀试验设备与方法→细颗粒土冲蚀参数预测模型→混合土体冲蚀参数研究→冲蚀速率修正模型→结论和展望。", "future": "扩充混合土体冲蚀数据；建立不同土体冲蚀参数数据库；修正模型参数取值范围研究；天然复杂土体（有机质、结构性）适用性验证。"}}, {"id": "18", "author": "邱松楠", "year": "2022", "degree": "工学硕士", "title": "渗透作用下砂土的强度劣化机制研究", "dir": "d4", "brief": "研发内部冲蚀应力路径三轴仪（IEST），提出SFDM强度劣化模型，DEM-CFD揭示细观机制。", "dims": {"problem": "内部冲蚀（渗透/管涌）作用下砂土强度劣化机制不明确；缺乏能同时施加水力梯度与三轴应力路径的试验设备；劣化难以定量描述与预测。", "innovation": "①自主研发土工内部冲蚀应力路径三轴仪（IEST），实现渗透-力学耦合试验；②提出SFDM强度劣化模型——峰值强度劣化度DR=1-α·exp(-k1·n)与累计涌砂量的指数函数关系；③用PFC3D-DEM-CFD建立细观劣化模型，揭示细颗粒运移与力链变化机制。", "method": "IEST三轴仪开展细颗粒含量、固结压力、水力梯度多因素试验；DEM-CFD耦合模拟细颗粒迁移与力链重分布；用Chen等文献试验验证劣化度公式。", "limitation": "未考虑土拱效应与尺寸效应；模型参数依赖特定试验条件，外推性有限。", "data": "自制IEST三轴试验数据；Chen等公开试验数据（验证）。", "result": "SFDM模型对试验拟合度0.928~0.990；DEM-CFD细观模型拟合度0.96~0.996；累计涌砂量随水力梯度、细颗粒含量增大而增大，峰值强度劣化显著。", "structure": "绪论→IEST设备研发→渗透劣化试验→SFDM强度劣化模型→DEM-CFD数值模拟→结论与展望。", "future": "土拱效应与尺寸效应；更多砂土类型与应力路径验证；细观参数与宏观强度定量衔接。"}}, {"id": "20", "author": "邓洪森", "year": "2021", "degree": "工学硕士", "title": "基于LS-SVM的桥墩局部冲刷深度预测方法", "dir": "d3", "brief": "基于贝叶斯证据框架的LS-SVM桥墩局部冲刷预测模型，与已有公式对比精度更高。", "dims": {"problem": "桥墩局部冲刷深度预测经验公式适用条件单一、误差大，小样本下机器学习易过拟合。", "innovation": "①将最小二乘支持向量机（LS-SVM）与贝叶斯证据框架结合用于桥墩局部冲刷深度预测，自动寻优超参数；②系统对比LS-SVM、SVM、BP神经网络与多类经验公式预测精度。", "method": "收集大量室内试验与现场实测冲刷数据→特征选取→LS-SVM建模（贝叶斯框架超参数寻优）→与经验公式/其他ML模型对比验证。", "limitation": "预测模型依赖训练数据分布，极端工况外推能力有限；输入特征组合仍依赖经验选取。", "data": "文献收集的室内试验与现场桥墩冲刷实测数据。", "result": "LS-SVM预测精度显著优于传统经验公式及SVM、BP等模型，为桥墩冲刷深度预测提供更可靠工具。", "structure": "绪论→冲刷机理与影响因素→LS-SVM理论→模型构建与对比→结论与展望。", "future": "结合现场实测扩充数据；考虑时间效应与河床演变；模型可解释性提升。"}}, {"id": "22", "author": "高虎", "year": "2021", "degree": "工学硕士", "title": "桥墩局部冲刷破坏机理及数值模拟", "dir": "d3", "brief": "耦合VOF方法模拟桥墩附近三维湍流流场与冲刷地形，分析流速、粒径等影响规律。", "dims": {"problem": "桥墩局部冲刷水沙耦合机理复杂，传统物理试验成本高、流场测量困难。", "innovation": "①耦合VOF方法建立桥墩局部冲刷三维数值模型，模拟马蹄形涡系与冲刷坑演化；②系统分析来流流速、泥沙粒径、桥墩形状尺寸对冲刷深度与形态的影响规律。", "method": "CFD数值模拟（VOF捕捉自由液面+湍流模型+泥沙输运）→与室内物理模型试验及实测数据对比验证→参数敏感性分析。", "limitation": "数值模型对推移质输运的简化；长期冲刷（时间尺度）模拟计算量大。", "data": "室内水槽试验数据与文献实测数据。", "result": "模拟流场（马蹄涡、下潜流）与冲刷坑形态与试验吻合良好，量化了流速、粒径、墩形对冲刷深度的影响规律。", "structure": "绪论→冲刷机理→数值模型构建→结果分析→参数影响规律→结论与展望。", "future": "三维长期冲刷模拟效率；级配泥沙与植被等复杂工况；冲刷-结构响应耦合。"}}, {"id": "23", "author": "魏书樵", "year": "2020", "degree": "工学硕士", "title": "基于机器学习的土体冲蚀起动切应力研究", "dir": "d4", "brief": "统一粒径量纲构建8特征数据集，RF特征重要性筛选，多模型对比确定冲蚀起动切应力最佳预测模型。", "dims": {"problem": "土体冲蚀起动切应力多依赖经验公式，各公式适用性与精度差异大；传统回归难以捕捉多因素非线性关系。", "innovation": "①统一各经验公式的粒径特征量纲并整合数据源，构建8特征土体冲蚀起动切应力数据集；②用随机森林（RF）特征重要性筛选关键变量；③系统比较RF、BP神经网络、SVR、多元回归等模型预测性能。", "method": "文献数据整合→特征工程与归一化→RF重要性筛选→多模型训练与交叉验证→最优模型选择与可视化分析。", "limitation": "数据来源跨文献，试验标准不统一带来系统误差；模型为纯数据驱动，物理可解释性有限。", "data": "多篇文献报道的土体冲蚀起动切应力试验数据。", "result": "确定预测性能最佳的机器学习模型，特征重要性排序明确，预测精度显著优于常用经验公式。", "structure": "绪论→冲蚀理论→数据构建→模型对比→结论与展望。", "future": "扩充多源数据并标准化；融合物理约束的混合模型；模型在线应用工具化。"}}, {"id": "24", "author": "樊俊杰", "year": "2020", "degree": "工学硕士", "title": "过剪应力模型和Wilson模型的冲蚀参数研究", "dir": "d4", "brief": "基于单元体试验与量纲分析，提出砂砾-黏土混合土体冲蚀参数经验公式，统一两种模型参数关系。", "dims": {"problem": "过剪应力模型与Wilson模型参数取值缺乏统一方法，混合土体（砂砾-黏土）冲蚀参数预测困难。", "innovation": "①设计多种砂砾-黏土配比单元体冲蚀试验，获取两类模型冲蚀参数；②基于量纲分析提出冲蚀参数预测经验公式；③揭示两种模型参数间的换算关系。", "method": "单元体冲蚀试验（不同黏粒含量、干密度、含水量）→量纲分析→经验公式回归→与已有公式对比验证。", "limitation": "试验土样为人工配土，天然结构性土适用性待验证；经验公式外延性有限。", "data": "实验室单元体冲蚀试验数据。", "result": "提出可用的混合土体冲蚀参数经验公式，两类模型参数可互相换算，预测误差满足工程要求。", "structure": "绪论→试验设计→冲蚀参数结果→量纲分析公式→验证对比→结论与展望。", "future": "天然土体与结构性土验证；参数数据库扩充；模型不确定性量化。"}}, {"id": "25", "author": "薄欣欣", "year": "2020", "degree": "工学硕士", "title": "广义热力学理论在构建超固结黏土和砂土本构模型中的应用", "dir": "d5", "brief": "在广义热力学框架下引入塑性功非正定假设，建立可描述超固结黏土与砂土剪胀软化的统一本构模型。", "dims": {"problem": "传统弹塑性本构模型难以统一描述超固结黏土与砂土的剪胀、软化及状态依赖性。", "innovation": "①在广义热力学框架下引入塑性功非正定假设，统一构建可描述剪胀/软化的本构模型；②模型同时适用于超固结黏土与砂土，参数少、物理意义明确。", "method": "理论推导→模型预测与文献三轴试验数据对比验证（多种初始状态与应力路径）。", "limitation": "模型未完全覆盖循环加载与率相关行为；极端应力路径验证不足。", "data": "文献公开的黏土与砂土三轴试验数据。", "result": "模型能统一预测超固结黏土与砂土的剪胀、软化、状态依赖特性，与试验吻合良好。", "structure": "绪论→广义热力学框架→模型建立→验证→结论与展望。", "future": "循环加载与动力特性扩展；离散元细观验证；复杂应力路径实验补充。"}}, {"id": "26", "author": "周济兵", "year": "2019", "degree": "工学硕士", "title": "基于超塑性理论的超固结软黏土本构模型", "dir": "d5", "brief": "超塑性理论+临界状态框架建立超固结软黏土本构模型，可描述峰值后软化与剪胀。", "dims": {"problem": "软黏土超固结状态下表现出峰值强度、软化与剪胀，传统剑桥类模型难以刻画。", "innovation": "基于超塑性（广义热力学）理论建立超固结软黏土本构模型，能量耗散函数构造自然，无需塑性势假设。", "method": "理论推导→模型参数标定→三轴试验数据验证。", "limitation": "模型验证数据以常规三轴为主，复杂应力路径验证不足。", "data": "文献三轴试验数据。", "result": "模型能合理描述超固结软黏土峰值、软化与剪胀行为。", "structure": "绪论→超塑性理论→模型构建→参数与验证→结论与展望。", "future": "动载与循环加载扩展；各向异性；工程应用参数获取简化。"}}, {"id": "27", "author": "罗昊", "year": "2019", "degree": "工学硕士", "title": "掺硫酸钙PVA纤维增强水泥基复合材料力学性能研究", "dir": "d8", "brief": "掺入硫酸钙调控PVA-ECC基体水化，改善纤维-基体界面，提高强度与延性。", "dims": {"problem": "PVA-ECC强度偏低、纤维-基体界面粘结不足，制约工程应用。", "innovation": "通过掺入硫酸钙调控水泥基体水化进程与产物，改善PVA纤维-基体界面过渡区，协同提升强度与延性。", "method": "力学试验（抗压/抗弯/拉伸）+微观测试（SEM等）对比不同掺量效果。", "limitation": "配合比优化范围有限；长期耐久与收缩性能未系统研究。", "data": "室内力学与微观试验数据。", "result": "硫酸钙掺量优化后PVA-ECC抗压强度与延性协同提升，界面微观结构改善。", "structure": "绪论→材料与试验→力学性能→微观机理→结论与展望。", "future": "长期耐久性（干缩、徐变）；配合比精细化；工程示范应用。"}}, {"id": "28", "author": "刘世聪", "year": "2019", "degree": "工学硕士", "title": "基于离心机水下爆炸试验的数值模拟研究", "dir": "d7", "brief": "利用土工离心机开展水下爆炸试验，结合SPH等数值方法模拟水中爆炸冲击波传播。", "dims": {"problem": "水下爆炸冲击波对水工结构的毁伤效应研究受原型试验条件限制，常规缩尺试验重力效应失真。", "innovation": "利用土工离心机超重力环境开展水下爆炸模型试验，使缩尺模型应力状态与原型相似；结合SPH（光滑粒子流体动力学）等数值方法模拟水中爆炸冲击波传播与结构响应。", "method": "离心机水下爆炸试验（不同爆距/药量）→数值模拟标定→试验与数值互验。", "limitation": "试验工况有限；爆炸近场材料强非线性模拟精度受限。", "data": "离心机水下爆炸试验数据。", "result": "试验与数值模拟结果相互验证，获得水中冲击波压力时程与衰减规律。", "structure": "绪论→离心机试验设计→数值模型→结果对比→结论与展望。", "future": "更多药量/爆距组合试验；结构毁伤效应耦合模拟；工程防护应用。"}}, {"id": "29", "author": "苏瑞林", "year": "2018", "degree": "工学硕士", "title": "重塑黏性土及混掺土体的抗冲蚀特性研究及应用", "dir": "d4", "brief": "单元体试验量化黏粒含量、密实度、含水量对抗冲蚀强度影响，提出土坝抗冲蚀修复方案。", "dims": {"problem": "黏性土与混掺土体抗冲蚀特性（起动切应力、冲蚀速率）缺乏系统定量数据，溃坝风险评价缺乏参数支撑。", "innovation": "①开展重塑黏性土及砂-黏混掺土体单元体冲蚀试验，系统量化黏粒含量、密实度、含水量影响；②将抗冲蚀参数应用于土坝漫顶溃决风险评价与修复设计。", "method": "单元体冲蚀试验（多配比、多含水率、多密实度）→参数分析→工程应用案例。", "limitation": "重塑土与天然土结构性差异；应用案例有限。", "data": "实验室单元体冲蚀试验数据与工程案例资料。", "result": "获得黏性土及混掺土体冲蚀参数变化规律，为溃坝风险评价与防护修复提供参数与方案。", "structure": "绪论→试验→参数规律→工程应用→结论与展望。", "future": "天然结构性土验证；冲蚀参数数据库；修复材料长期效果。"}}, {"id": "30", "author": "董竹勤", "year": "2017", "degree": "工学硕士", "title": "土石复合地层隧道施工围岩稳定性及风险管理研究", "dir": "d2", "brief": "针对土石复合地层隧道，研究围岩稳定性规律并提出施工风险管理体系。", "dims": {"problem": "土石复合地层（土石混合体）隧道开挖围岩变形与稳定性规律复杂，施工风险高。", "innovation": "针对土石复合地层特殊地质，系统研究围岩稳定性影响因素，构建针对性施工风险管理体系。", "method": "数值模拟（不同含石率/隧道埋深/开挖方式）+工程案例对比+风险分析。", "limitation": "复合地层细观结构简化；风险管理以定性框架为主。", "data": "数值模拟结果与工程案例资料。", "result": "获得土石复合地层围岩变形破坏规律与关键影响因素，提出风险控制措施。", "structure": "绪论→地层特性→数值模拟→风险管理→结论与展望。", "future": "土石混合体细观建模；动态风险评估与信息化施工。"}}, {"id": "31", "author": "王洪洋", "year": "2016", "degree": "工学硕士", "title": "加筋土石坝漫顶溃坝机理研究", "dir": "d6", "brief": "试验与数值结合研究加筋土石坝漫顶溃决过程，揭示加筋层对溃口扩展的抑制作用。", "dims": {"problem": "土石坝漫顶溃决是溃坝洪水主要来源之一，加筋措施对溃口扩展的抑制机理不明。", "innovation": "系统开展加筋土石坝漫顶溃决试验与数值模拟，定量揭示加筋层数/位置对溃口发展形态与溃决过程的控制作用。", "method": "室内溃坝模型试验+数值模拟对比分析。", "limitation": "模型比尺效应；加筋材料与坝体相互作用简化。", "data": "室内溃坝模型试验数据。", "result": "加筋层显著延缓溃口扩展、降低溃决峰值流量，溃决形态与未加筋坝差异明显。", "structure": "绪论→试验设计→溃决过程分析→数值模拟→结论与展望。", "future": "原型尺度验证；加筋参数优化设计；溃决洪水预测耦合。"}}, {"id": "32", "author": "陈淑婧", "year": "2015", "degree": "工学硕士", "title": "土石坝漫顶溃决机理模型及数值模拟方法研究", "dir": "d6", "brief": "建立土石坝漫顶溃决机理模型，数值模拟溃口发展过程并与试验/实例验证。", "dims": {"problem": "土石坝漫顶溃决过程（溃口发展、泄流、坝体冲刷）机理模型不完善。", "innovation": "建立考虑水-沙耦合的漫顶溃决机理模型，模拟溃口纵向/横向发展与溃决洪水过程。", "method": "机理模型推导+数值实现+溃坝试验与历史案例验证。", "limitation": "模型参数（冲蚀参数等）敏感性高；极端复杂坝型适用性有限。", "data": "室内溃坝试验数据与历史溃坝案例资料。", "result": "模型能合理再现溃口发展与溃决流量过程，与试验及历史案例吻合。", "structure": "绪论→机理模型→数值方法→验证→结论与展望。", "future": "参数率定自动化；随机性与不确定性分析；三维精细化模拟。"}}];
+
+const dirs = [{"id": "d1", "name": "隧道渗漏水与注浆治理", "color": "#2f6fed", "desc": "渗漏水病害识别、封堵注浆材料与治理技术"}, {"id": "d2", "name": "隧道施工·下穿与限界检测", "color": "#0891b2", "desc": "盾构/复合地层隧道施工、下穿铁路与限界检测"}, {"id": "d3", "name": "冲刷防护与桥墩工程", "color": "#0e9f6e", "desc": "桥墩局部冲刷机理、预测与固化土防冲刷防护"}, {"id": "d4", "name": "土体冲蚀机理与冲蚀模型", "color": "#d97706", "desc": "细颗粒土冲蚀特征、起动切应力、冲蚀速率与参数模型"}, {"id": "d5", "name": "土体本构理论", "color": "#7c3aed", "desc": "基于热力学/超塑性/边界面的超固结黏土与砂土本构模型"}, {"id": "d6", "name": "土石坝与堰塞坝溃决", "color": "#dc2626", "desc": "堰塞坝峰值流量预测、土石坝漫顶溃决机理与数值模型"}, {"id": "d7", "name": "爆破·离心机试验", "color": "#db2777", "desc": "离心机超重力水下爆炸试验与数值模拟"}, {"id": "d8", "name": "岩土材料改良与边坡数值", "color": "#4d7c0f", "desc": "废泥岩/黄土/PVA-ECC 等材料改良与岩质边坡数值方法"}];
+const members = [{"id": "m01", "name": "崔梦超", "meta": "2026届 工学硕士", "dir": "d1", "work": "隧道渗漏水封堵材料研制与双重注浆体系（超细水泥+丙烯酸盐-沸石粉）", "papers": ["01"]}, {"id": "m02", "name": "王浩", "meta": "2026届 专业硕士", "dir": "d6", "work": "堰塞坝溃决峰值流量灰盒预测模型与HEC-RAS演进模拟", "papers": ["02"]}, {"id": "m03", "name": "徐澎海", "meta": "2026届 工学硕士", "dir": "d8", "work": "强风化泥岩流态固化浆液制备与配比优化", "papers": ["03"]}, {"id": "m04", "name": "张瑞涛", "meta": "2026届 工学博士（硕博连读）", "dir": "d1", "work": "博：岩溶桩基注浆扩散机理与临界充填量；硕：岩质边坡溃曲机理与数值流形法模拟", "papers": ["04", "16"]}, {"id": "m05", "name": "齐云鹏", "meta": "2026届 工学博士", "dir": "d3", "work": "固废渣土冲刷防护特性改良与桥墩防冲刷工程应用", "papers": ["05"]}, {"id": "m06", "name": "李裴", "meta": "2025届 工学博士", "dir": "d1", "work": "砂卵层地铁隧道渗漏水识别诊断与动水注浆治理", "papers": ["06"]}, {"id": "m07", "name": "周天齐", "meta": "2025届 专业硕士", "dir": "d3", "work": "钢丝石笼围堰+流态固化土灌注桥墩防冲刷工艺", "papers": ["07"]}, {"id": "m08", "name": "赵雨筱", "meta": "2025届 工学硕士", "dir": "d3", "work": "桥墩基础抗冲刷能力RES-AHP多维云模型评价", "papers": ["08"]}, {"id": "m09", "name": "王大雷", "meta": "2025届 专业硕士", "dir": "d3", "work": "重庆红黏土抗冲刷性态改良配比试验", "papers": ["09"]}, {"id": "m10", "name": "裴瑛", "meta": "2024届 工学硕士", "dir": "d2", "work": "地铁隧道点云限界检测与侵限判定软件", "papers": ["10"]}, {"id": "m11", "name": "李运杰", "meta": "2024届 工学硕士", "dir": "d8", "work": "水泥复合木质素改良季冻区黄土力学与微观机制", "papers": ["11"]}, {"id": "m12", "name": "李佳豪", "meta": "2024届 工学硕士", "dir": "d1", "work": "盾构隧道点云渗漏水自动识别与统计分析", "papers": ["12"]}, {"id": "m13", "name": "许光明", "meta": "2023届 工学硕士", "dir": "d5", "work": "基于热力学理论的超固结黏土本构模型及参数确定", "papers": ["13"]}, {"id": "m14", "name": "李广耀", "meta": "2023届 专业硕士", "dir": "d2", "work": "大断面箱涵下穿既有铁路变形规律与加固分析", "papers": ["14"]}, {"id": "m15", "name": "修一兵", "meta": "2023届 专业硕士", "dir": "d3", "work": "固化土抗冲刷特性及起动切应力时间效应", "papers": ["15"]}, {"id": "m16", "name": "周鹏展", "meta": "2022届 工学硕士", "dir": "d4", "work": "细颗粒土与混合土体冲蚀特征及冲蚀速率模型", "papers": ["17"]}, {"id": "m17", "name": "邱松楠", "meta": "2022届 工学硕士", "dir": "d4", "work": "渗透作用下砂土强度劣化机制与IEST三轴仪研发", "papers": ["18"]}, {"id": "m18", "name": "邓洪森", "meta": "2021届 工学硕士", "dir": "d3", "work": "基于LS-SVM的桥墩局部冲刷深度预测", "papers": ["20"]}, {"id": "m19", "name": "高虎", "meta": "2021届 工学硕士", "dir": "d3", "work": "桥墩局部冲刷破坏机理与VOF数值模拟", "papers": ["22"]}, {"id": "m20", "name": "魏书樵", "meta": "2020届 工学硕士", "dir": "d4", "work": "基于机器学习的土体冲蚀起动切应力预测", "papers": ["23"]}, {"id": "m21", "name": "樊俊杰", "meta": "2020届 工学硕士", "dir": "d4", "work": "过剪应力模型与Wilson模型冲蚀参数研究", "papers": ["24"]}, {"id": "m22", "name": "薄欣欣", "meta": "2020届 工学硕士", "dir": "d5", "work": "广义热力学理论构建超固结黏土与砂土本构模型", "papers": ["25"]}, {"id": "m23", "name": "周济兵", "meta": "2019届 工学硕士", "dir": "d5", "work": "基于超塑性理论的超固结软黏土本构模型", "papers": ["26"]}, {"id": "m24", "name": "罗昊", "meta": "2019届 工学硕士", "dir": "d8", "work": "掺硫酸钙PVA纤维增强水泥基复合材料力学性能", "papers": ["27"]}, {"id": "m25", "name": "刘世聪", "meta": "2019届 工学硕士", "dir": "d7", "work": "离心机水下爆炸试验与数值模拟", "papers": ["28"]}, {"id": "m26", "name": "苏瑞林", "meta": "2018届 工学硕士", "dir": "d4", "work": "重塑黏性土及混掺土体抗冲蚀特性及应用", "papers": ["29"]}, {"id": "m27", "name": "董竹勤", "meta": "2017届 工学硕士", "dir": "d2", "work": "土石复合地层隧道围岩稳定性与风险管理", "papers": ["30"]}, {"id": "m28", "name": "王洪洋", "meta": "2016届 工学硕士", "dir": "d6", "work": "加筋土石坝漫顶溃坝机理研究", "papers": ["31"]}, {"id": "m29", "name": "陈淑婧", "meta": "2015届 工学硕士", "dir": "d6", "work": "土石坝漫顶溃决机理模型及数值模拟方法", "papers": ["32"]}];
+const DIM_KEYS = [
+ ["problem","解决的问题"],
+ ["innovation","创新点"],
+ ["method","实验/模型设计"],
+ ["limitation","方法局限"],
+ ["data","数据来源"],
+ ["result","结果论证"],
+ ["structure","文章组织"],
+ ["future","尚未解决问题与缺陷"]
+];
+const dimIcons = {problem:"❓",innovation:"💡",method:"🧪",limitation:"⚠️",data:"📊",result:"✅",structure:"📑",future:"🔭"};
+const el = id => document.getElementById(id);
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const dirOf = id => dirs.find(d=>d.id===id);
+const papersById = {}; papers.forEach(p=>papersById[p.id]=p);
+
+function paperNode(p){
+  const d = dirOf(p.dir);
+  const dimsHtml = DIM_KEYS.map(([k,label])=>`<div class="node dim"><div class="node-head"><span class="dt">${dimIcons[k]} ${label}</span><span class="dv">${esc(p.dims[k])}</span></div></div>`).join("");
+  return `<div class="node paper" id="p-${p.id}" style="--dir-color:${d.color}">
+    <div class="node-head"><span class="tw">▾</span>
+      <span class="t"><span class="ti">${esc(p.title)}</span><div class="meta">${esc(p.author)} · ${p.year} · ${esc(p.degree)} · 编号 ${p.id}</div></span>
+      <span class="badge">${esc(d.name)}</span></div>
+    <div class="children"><div class="member-card"><b>一句话核心：</b>${esc(p.brief)}</div>${dimsHtml}</div>
+  </div>`;
+}
+function dirNode(d){
+  const ps = papers.filter(p=>p.dir===d.id);
+  return `<div class="node dir" style="--dir-color:${d.color};--dir-soft:${d.color}18">
+    <div class="node-head"><span class="tw">▾</span>
+      <span class="t"><span class="ti">${esc(d.name)}</span><div class="meta">${esc(d.desc)}</div></span>
+      <span class="badge">${ps.length} 篇</span></div>
+    <div class="children">${ps.map(paperNode).join("")}</div>
+  </div>`;
+}
+function memberPaperDetail(p){
+  const d = dirOf(p.dir);
+  const dimsHtml = DIM_KEYS.map(([k,label])=>`<div class="node dim"><div class="node-head"><span class="dt">${dimIcons[k]} ${label}</span><span class="dv">${esc(p.dims[k])}</span></div></div>`).join("");
+  return `<div class="member-paper" style="--dir-color:${d.color}">
+    <div class="mp-head"><span class="mp-badge">${esc(d.name)}</span><span class="mp-title">${esc(p.title)}</span></div>
+    <div class="mp-meta">${esc(p.author)} · ${p.year} · ${esc(p.degree)} · 编号 ${p.id}</div>
+    <div class="member-card"><b>一句话核心：</b>${esc(p.brief)}</div>${dimsHtml}
+  </div>`;
+}
+function memberNode(m){
+  const d = dirOf(m.dir);
+  const details = m.papers.map(id=>memberPaperDetail(papersById[id])).join("");
+  return `<div class="node member" style="--dir-color:#64748b">
+    <div class="node-head"><span class="tw">▾</span>
+      <span class="t"><span class="ti">${esc(m.name)}</span><div class="meta">${esc(m.meta)} · ${esc(d.name)}</div></span>
+      <span class="badge">${m.papers.length} 篇</span></div>
+    <div class="children"><div class="member-card"><b>研究方向与工作：</b>${esc(m.work)}</div>${details}</div>
+  </div>`;
+}
+function render(){
+  const tree = el("tree");
+  const html = `<div class="node dir" style="--dir-color:#1e3a8a;--dir-soft:#eef2ff">
+    <div class="node-head"><span class="tw">▾</span><span class="t"><span class="ti">📂 按研究方向（8 类）</span><div class="meta">共 ${papers.length} 篇论文</div></span><span class="badge">${papers.length} 篇</span></div>
+    <div class="children">${dirs.map(dirNode).join("")}</div></div>
+    <div class="node dir" style="--dir-color:#64748b;--dir-soft:#f1f5f9">
+    <div class="node-head"><span class="tw">▾</span><span class="t"><span class="ti">👥 组内人员（${members.length} 位）</span><div class="meta">人员 - 论文 - 研究方向关系</div></span><span class="badge">${members.length} 人</span></div>
+    <div class="children">${members.map(memberNode).join("")}</div></div>`;
+  tree.innerHTML = html;
+  tree.querySelectorAll(".node-head").forEach(h=>{
+    h.addEventListener("click",e=>{
+      if(e.target.closest(".link")) return;
+      h.parentElement.classList.toggle("collapsed");
+    });
+  });
+  tree.querySelectorAll(".link").forEach(a=>{
+    a.addEventListener("click",e=>{
+      e.stopPropagation();
+      const t = a.dataset.target;
+      let node = el(t);
+      if(!node) return;
+      // 展开所有祖先
+      let cur = node.parentElement;
+      while(cur && cur.id !== "tree"){
+        if(cur.classList && cur.classList.contains("collapsed")) cur.classList.remove("collapsed");
+        cur = cur.parentElement;
+      }
+      node.scrollIntoView({behavior:"smooth",block:"center"});
+      node.style.transition="box-shadow .8s";
+      node.style.boxShadow="0 0 0 3px #f59e0b";
+      setTimeout(()=>{node.style.boxShadow="";},1600);
+    });
+  });
+  bindSearch();
+  updateStat("");
+}
+function bindSearch(){
+  const q = el("q");
+  q.removeEventListener("input",onSearch);
+  q.addEventListener("input",onSearch);
+}
+function onSearch(){
+  const kw = el("q").value.trim();
+  clearMarks();
+  if(!kw){ updateStat(""); return; }
+  const tree = el("tree");
+  const walker = document.createTreeWalker(tree, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  while(walker.nextNode()){
+    const t = walker.currentNode;
+    if(t.nodeValue && t.nodeValue.includes(kw) && t.parentElement && !t.parentElement.closest("mark")) nodes.push(t);
+  }
+  nodes.forEach(t=>{
+    const v = t.nodeValue;
+    const idx = v.indexOf(kw);
+    const span = document.createElement("mark");
+    const rest = t.splitText(idx);
+    span.textContent = kw;
+    t.parentNode.insertBefore(span, rest);
+    t.nodeValue = v.slice(0,idx);
+    // 展开祖先
+    let cur = span.parentElement;
+    while(cur && cur.id!=="tree"){ if(cur.classList && cur.classList.contains("collapsed")) cur.classList.remove("collapsed"); cur=cur.parentElement; }
+  });
+  updateStat("找到 " + nodes.length + " 处匹配“" + kw + "”");
+  if(nodes.length===0) updateStat("未找到匹配“" + kw + "”的内容");
+}
+function clearMarks(){
+  el("tree").querySelectorAll("mark").forEach(m=>{
+    const parent = m.parentNode;
+    parent.replaceChild(document.createTextNode(m.textContent), m);
+    parent.normalize();
+  });
+}
+function updateStat(s){
+  const total = papers.length;
+  el("stat").textContent = s ? s + " ｜ 共收录 " + total + " 篇论文、" + members.length + " 位成员" : "共收录 " + total + " 篇论文（第 19 篇按约定跳过）· " + dirs.length + " 个研究方向 · " + members.length + " 位成员";
+}
+function expandAll(){ el("tree").querySelectorAll(".node.collapsed").forEach(n=>n.classList.remove("collapsed")); }
+function collapseAll(){ el("tree").querySelectorAll(".node").forEach(n=>{ if(n.querySelector(".node")) n.classList.add("collapsed"); }); }
+function clearSearch(){ el("q").value=""; clearMarks(); updateStat(""); }
+el("tree").addEventListener("click",()=>{});
+render();
+
+</script>
+</body>
+</html>
